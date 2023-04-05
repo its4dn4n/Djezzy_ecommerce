@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->date('date');
             $table->string('status');
-            $table->decimal('totalPrice', 8, 2);
+            $table->decimal('totalPrice', 12, 2);
             $table->integer('user_id');
             $table->timestamps();
         });
