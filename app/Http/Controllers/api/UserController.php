@@ -13,15 +13,18 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 
+/**
+ * @group User Management
+ * APIs to manage the user resource.
+ */
 class UserController extends Controller
 {
     use ResponseTrait;
 
      /**
-     * Store a newly created resource in storage.
+     * Store User.
      *
-     * @param  App\Http\Requests\User\CreateUserRequest  $request
-     * @return App\Traits\ResponseTrait
+     *
      */
   public function store(CreateUserRequest $request_validated)
      {  
@@ -39,11 +42,11 @@ class UserController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
+     * Display User.
      * 
-     * @return  App\Traits\ResponseTrait
-
+     * @apiResource App\Http\Resources\UserResource
+     * @apiResourceModel App\Models\User
+     * @return Resource
      */
     public function show(Request $request)
     {
@@ -53,12 +56,9 @@ class UserController extends Controller
 
     }
 
- /**
-     * Update the specified resource in storage.
+     /**
+     * Update User.
      *
-     * @param  App\Http\Requests\UpdateUserRequest  $request
-     * 
-     * @return \App\Traits\ResponseTrait
      */
     public function update(UpdateUserRequest $request_validated)
     {
@@ -81,10 +81,9 @@ class UserController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove User.
      *
      * 
-     * @return App\Traits\ResponseTrait
      */
     public function destroy()
     {
@@ -101,9 +100,7 @@ class UserController extends Controller
      * Log Out
      *
      * 
-     * @return App\Traits\ResponseTrait
      */
-
     public function logout(){
 
         $loggedOut= auth()->user()->tokens()->delete();
