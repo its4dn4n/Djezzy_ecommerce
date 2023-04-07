@@ -11,7 +11,7 @@ class UpdateUserRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return True;
     }
 
     /**
@@ -24,8 +24,7 @@ class UpdateUserRequest extends FormRequest
         return [
             'name'=>['nullable'],
             'email'=>['nullable','email','unique:users'],
-            'password'=>['nullable','min:8'],
-            'role'=>['nullable']
+            'password'=>['nullable','min:8']
         ];
     }
 }

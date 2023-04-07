@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
-use App\Http\Controllers\Api\AuthController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -17,12 +17,13 @@ use App\Http\Controllers\Api\AuthController;
 */
 
 Route::middleware('auth:api')->group(function () {
-   //auth 
-   Route::post('logout',[AuthController::class,'logout']);
+
    //users
-   Route::get('users',[UserController::class,'show']);
-   Route::post('users/update',[UserController::class,'update']);
-   Route::delete('users',[UserController::class,'destroy']);
+   Route::get('user',[UserController::class,'show']);
+   Route::post('user/update',[UserController::class,'update']);
+   Route::delete('user',[UserController::class,'destroy']);
+   Route::get('logout',[UserController::class,'logout']);
+
    
     
    /*
@@ -43,6 +44,5 @@ Route::middleware('auth:api')->group(function () {
     */
 });
 
-Route::post('users',[UserController::class,'store']);
-Route::post('login',[AuthController::class,'login']);
+Route::post('user',[UserController::class,'store']);
 
