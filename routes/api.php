@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\CategoryController;
 
 
 /*
@@ -18,28 +19,31 @@ use App\Http\Controllers\Api\UserController;
 
 Route::middleware('auth:api')->group(function () {
 
-   //users
+   // users
    Route::get('user',[UserController::class,'show']);
    Route::post('user/update',[UserController::class,'update']);
    Route::delete('user',[UserController::class,'destroy']);
    Route::get('logout',[UserController::class,'logout']);
+    
+    // Categories
+    Route::apiResource('categories',CategoryController::class)->only('store','destroy')->middleware('isAdmin');
+    Route::apiResource('categories',CategoryController::class)->only('index','show');
+    Route::post('/categories/{id}',[CategoryController::class,'update'])->middleware('isAdmin');;// can we send body in put/patch 
 
-   
-    
-   /*
-    
-    // OTHERS
-    Route::apiResource('categories',CategorieController::class);
-    //CREATE , UPDATE , DESTROY ,  SHOW ALL , SHOW 
+/*
     // show products of category 
-    Route::apiResource('products',CategorieController::class);
+    Route::apiResource('products',ProductController::class);
     // CREATE , update , destroy ,show 
     //!(show all)
-    Route::apiResource('orders',CategorieController::class);
+
+    Route::apiResource('orders',OrderController::class);
     // create, destroy  
+    /*
+
     Route::apiResource('carts',CartController::class);
-    // create ,update ,checkout , destroy ,show
-    Route::apiResource('feedbacks',CategorieController::class);
+    // create ,update  , destroy ,show  ..checkout
+
+    Route::apiResource('feedbacks',FeedbackController::class);
     //create, update,  destroy 
     */
 });

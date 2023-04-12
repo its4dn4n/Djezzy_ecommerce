@@ -33,7 +33,7 @@ class UserController extends Controller
                     $request_array['password']= bcrypt($request_validated->password); 
                    // if there will be DB error when create 
                    //or DB down
-                    User::create([$request_array]); 
+                    User::create($request_array); 
                     return $this->responseSuccess(null,'User Created Succefully'); 
             }
             catch(\Exception $e){
