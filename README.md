@@ -1,7 +1,7 @@
 # Functionalities used 
-###MVC : Model Controler View(JsonFile)
-Passport Auth : Token + Refresh Token 
-Costum Requests : store + update 
+## MVC : Model Controler View(JsonFile)
+### Passport Auth : Token + Refresh Token 
+#### Costum Requests : store + update 
 Traits : success + error response 
 Resources 
 Errors Handling: 404 + 403 + 500
