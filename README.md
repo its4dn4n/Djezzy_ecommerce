@@ -1,5 +1,5 @@
 # Functionalities used 
-MVC : Model Controler View(JsonFile)
+###MVC : Model Controler View(JsonFile)
 Passport Auth : Token + Refresh Token 
 Costum Requests : store + update 
 Traits : success + error response 
