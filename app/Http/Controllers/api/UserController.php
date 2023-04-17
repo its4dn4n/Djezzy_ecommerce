@@ -10,8 +10,8 @@ use Illuminate\Http\Response;
 use App\Repositories\UserRepository;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\DB;
-use App\Http\Requests\CreateUserRequest;
-use App\Http\Requests\UpdateUserRequest;
+use App\Http\Requests\users\CreateUserRequest;
+use App\Http\Requests\users\UpdateUserRequest;
 
 /**
  * @group User Management

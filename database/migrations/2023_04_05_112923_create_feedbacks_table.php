@@ -13,9 +13,17 @@ return new class extends Migration
     {
         Schema::create('feedbacks', function (Blueprint $table) {
             $table->id();
-            $table->string('comment');
-            $table->integer('user_id');
-            $table->integer('order_product_id');
+            $table->text('comment');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')
+            ->references('id')
+            ->on('users')
+            ->onDelete('cascade');
+            $table->unsignedBigInteger('order_product_id');
+            $table->foreign('order_product_id')
+            ->references('id')
+            ->on('order_product')
+            ->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -25,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('feedback');
+        Schema::dropIfExists('feedbacks');
     }
 };

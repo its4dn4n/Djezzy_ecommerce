@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Requests\categories;
+namespace App\Http\Requests\products;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateCategoryRequest extends FormRequest
+class CreateProductRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,7 +23,12 @@ class UpdateCategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'=> ['required','min:3','max:20']
+            'name'=>['required','unique:products'],
+            'image'=> ['required','image'],    //'mems:.jpg '
+            'quantity'=> ['required'],
+            'price'=> ['required'],
+            'description'=>['required'],
+            'category'=>['required','exists:categories,name'],
         ];
     }
 }

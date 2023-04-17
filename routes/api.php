@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\ProductController;
 
 
 /*
@@ -19,7 +20,7 @@ use App\Http\Controllers\Api\CategoryController;
 
 Route::middleware('auth:api')->group(function () {
 
-   // users
+   // Users
    Route::get('user',[UserController::class,'show']);
    Route::post('user/update',[UserController::class,'update']);
    Route::delete('user',[UserController::class,'destroy']);
@@ -28,7 +29,14 @@ Route::middleware('auth:api')->group(function () {
     // Categories
     Route::apiResource('categories',CategoryController::class)->only('store','destroy')->middleware('isAdmin');
     Route::apiResource('categories',CategoryController::class)->only('index','show');
-    Route::post('/categories/{id}',[CategoryController::class,'update'])->middleware('isAdmin');;// can we send body in put/patch 
+    Route::post('categories/{categorie}',[CategoryController::class,'update'])->middleware('isAdmin');;// can we send body in put/patch 
+
+    // Products 
+    Route::post('product',[ProductController::class,'store']);
+    Route::post('product/update',[ProductController::class,'update']);
+    Route::delete('product/{product}',[ProductController::class,'destroy']);
+    Route::get('products',[ProductController::class,'index']);
+    Route::get('product/{product}',[ProductController::class,'show']);
 
 /*
     // show products of category 

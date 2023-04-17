@@ -35,7 +35,7 @@ class CategoryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Category $category)
+    public function show(Category $category) //..
     {
         return $this->responseSuccess(  new CategoryResource($category)  );
     }
@@ -43,18 +43,12 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateCategoryRequest $request, $id) 
+    public function update(UpdateCategoryRequest $request, Category $category) // are we should cast the $id to string 
     {   
-        try{    // check if the categorie exist
-        $category= Category::findOrFail(['id'=>$id])->first();
-        }
-        catch(\Exception $e){
-            return $this->responseError(null, 'Category not found', 404);
-        } 
 
         $request_array= $request->validated();
         
-        if ($request->has('name') && !empty($request_array['name']) && $category->name != $request_array['name'])
+        
         $category->update(['name'=>$request_array['name']]);  // if the DB down or error in update ORM how we handle this error
 
         return $this->responseSuccess(new CategoryResource($category));
@@ -64,16 +58,10 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($category)//when the name match the route paramater name 
+    public function destroy(Category $category)//when the name match the route paramater name 
                                   //ficha error if the record didn't exist 
                                   // but withother name no error showen  
     {
-        try{    
-            $category_object= Category::findOrFail(['id'=>$category])->first();
-            }
-            catch(\Exception $e){
-                return $this->responseError(null, 'Category not found', 404);
-            } 
        
         $deleted= $category_object->delete();
         if (!$deleted)

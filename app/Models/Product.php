@@ -9,6 +9,18 @@ class Product extends Model
 {
     use HasFactory;
 
+    
+    // public $status; punding, done , .. 
+
+    protected $fillable = [
+       'name',
+       'imagePath',
+       'quantity',
+       'price',
+       'description',
+       'category_id'
+    ];
+
  //relationships 
  function categories(){
     $this->belongsTo(Categorie::class);
