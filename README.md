@@ -23,7 +23,7 @@
 #### Composer
 
 # Setup
-## laravel project 
+### laravel project 
 #### git clone {Poject}
 #### cd ./{project}
 #### cmd> composer install
@@ -35,7 +35,7 @@ DB_DATABASE,
 DB_USERNAME,
 DB_PASSWORD
 #### cmd> php artisan serve
-## start mysql server 
+### start mysql server 
 
 # Framework Used 
 #### Laravel 10.0
