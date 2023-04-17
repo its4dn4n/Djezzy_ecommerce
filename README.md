@@ -22,19 +22,19 @@
 #### Mysql ^5.7
 #### Composer
 
-#Setup
+# Setup
 ## laravel project 
-####git clone {Poject}
-####cd ./{project}
-####cmd> composer install
-####open {project}/.env file
-####set your 
+#### git clone {Poject}
+#### cd ./{project}
+#### cmd> composer install
+#### open {project}/.env file
+#### set your 
 DB_HOST,
 DB_PORT,
 DB_DATABASE,
 DB_USERNAME,
 DB_PASSWORD
-####cmd> php artisan serve
+#### cmd> php artisan serve
 ## start mysql server 
 
 # Framework Used 
