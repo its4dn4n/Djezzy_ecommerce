@@ -1,0 +1,77 @@
+@startuml
+skinparam style strictuml
+skinparam DefaultFontName Arial
+skinparam DefaultFontSize 16
+skinparam DefaultFontStyle bold
+skinparam ArrowThickness 2.2
+skinparam ArrowColor #gray
+hide empty members
+
+
+
+class users{
+id 
+name
+email
+password
+role
+}
+class categories{
+id
+name
+}
+class products{
+id
+name
+imagePath
+quantity
+price
+description
+categorie_id
+}
+class orders{
+id
+date
+status
+totalPrice
+user_id
+}
+class feedbacks{
+id
+comment
+order_product_id
+user_id
+}
+class carts{
+id 
+user_id
+}
+class cart_product{
+id
+quantity
+cart_id 
+product_id
+}
+class order_product{
+id 
+name
+imagePath
+price 
+quantity 
+order_id
+product_id 
+}
+
+categories "1" --> "*" products
+users "1" --> "*" orders 
+orders "*" -- "*" products
+(orders,products) .. order_product
+
+users "*" -- "*" order_product
+(order_product,users) .. feedbacks
+users "1" --> "1" carts
+carts "*" -- "*" products
+(carts,products) .. cart_product
+
+
+@enduml<
