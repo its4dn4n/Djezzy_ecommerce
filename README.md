@@ -19,7 +19,7 @@
 
 # Requiremnets 
 #### Php ^8.2
-#### Mysql 
+#### Mysql ^5.7
 
 # Framework Used 
 #### Laravel 10.0
