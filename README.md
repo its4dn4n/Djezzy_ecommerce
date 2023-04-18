@@ -36,8 +36,10 @@
 ### start mysql server 
 
 # Routes 
-  #### $baseUrl= {app host}
-  #### Users Routes :
+  #### $baseUrl= {http://host:port}
+  #### get      $baseUrl/                     : a simple snake game for fun
+ 
+  ### Users Routes :
   #### get      $baseUrl/api/user             {}
   #### post     $baseUrl/api/user/update      {}
   #### delete   $baseUrl/api/user             {}
