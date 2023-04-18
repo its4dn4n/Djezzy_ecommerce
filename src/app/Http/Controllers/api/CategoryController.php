@@ -35,35 +35,37 @@ class CategoryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Category $category) //..
+    public function show(string $category) 
     {
-        return $this->responseSuccess(  new CategoryResource($category)  );
+ 
+        $category= Category::find($category);
+        if (!empty($category))
+           return $this->responseSuccess(  new CategoryResource($category)  );
+        return $this->responseError(null, 'Category not found.', 404); 
+
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateCategoryRequest $request, Category $category) // are we should cast the $id to string 
+    public function update(UpdateCategoryRequest $request,string $category) 
     {   
-
-        $request_array= $request->validated();
-        
-        
-        $category->update(['name'=>$request_array['name']]);  // if the DB down or error in update ORM how we handle this error
-
-        return $this->responseSuccess(new CategoryResource($category));
+        $category= Category::find($category);
+        if (!empty($category)){
+            $request_array= $request->validated();
+            $category->update(['name'=>$request_array['name']]); 
+            return $this->responseSuccess(new CategoryResource($category));
+        }
+        return $this->responseError(null, 'Category not found.', 404);
 
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Category $category)//when the name match the route paramater name 
-                                  //ficha error if the record didn't exist 
-                                  // but withother name no error showen  
-    {
-       
-        $deleted= $category_object->delete();
+    public function destroy(Category $category) 
+    { 
+        $deleted= $category->delete();
         if (!$deleted)
            return $this->responseError(null, 'Failed to delete the category.', 500);
         return $this->responseSuccess('Category Deleted Succefully');

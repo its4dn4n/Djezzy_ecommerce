@@ -1,14 +1,17 @@
-<?php
+<?php  //product::create() handling error ?
+              //::update()
+       //DB::transaction doesn't work in storage delete, store dont rollback them if error
 
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\products\CreateProductRequest;
 use App\Http\Requests\products\UpdateProductRequest;
-use App\Http\Requests\products\ProductResource;
+use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\Models\Category;
 use App\Traits\ResponseTrait;
@@ -39,7 +42,7 @@ class ProductController extends Controller
         $path= Storage::disk('public')->putFileAs('products_images', $file, $image_name);
         $request_array['imagePath']= $path; 
         $request_array['category_id']= $category->id;
-        Product::create($request_array); 
+        Product::create($request_array);    
         return $this->responseSuccess(null,'Product Created Succefully'); 
 
     }
@@ -47,24 +50,26 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Product $product)
-    {
-        return $this->responseSuccess(new ProductResource($product));
+    public function show(String $product)
+    {   
+        $product= Product::find($product);
+        if (!empty($product))
+           return $this->responseSuccess(new ProductResource($product));
+        return $this->responseError(null, 'Product not found.', 404);
     }
 
     /**
      * Update the specified resource in storage.
      */
     public function update(UpdateProductRequest $request,string $product) 
-    {
+    {   
+        $product= Product::find($product);
 
+        if (empty($product))
+            return $this->responseError(null, 'Product not found.', 404);
         $request_array= $request->validated();
-        try{ 
-       
-            DB::beginTransaction();
-        /* $product->update(['name'=>$request_array['name']]);  
-        $product->update(['price'=>$request_array['price']]);  
-        $product->update(['description'=>$request_array['description']]);   */
+      /*   try{ 
+        DB::beginTransaction();  */
         $product->update($request_array);  
 
         if ($request->hasFile('image')){
@@ -72,14 +77,14 @@ class ProductController extends Controller
             $path= $request->file('image')->store('public/products_images'); 
             $product->update(['imagePath'=> $path]);
         }
-        DB::commit();
+       /*  DB::commit(); */
         return $this->responseSuccess(new ProductResource($product));
-    }
+        /* }
         catch(\Exception $e){
             DB::rollback();
-            Log::error($e->message);
+            Log::error($e->getMessage());
             return $this->responseError(null, 'Any error occured', 500);
-         }
+         } */
     }
 
     /**

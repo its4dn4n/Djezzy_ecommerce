@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Cart;
 use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
 use Illuminate\Http\Response;
@@ -26,19 +27,21 @@ class UserController extends Controller
      *
      *
      */
-  public function store(CreateUserRequest $request_validated)
+  public function store(CreateUserRequest $request)
      {  
          try{            
-                    $request_array= $request_validated->validated(); 
-                    $request_array['password']= bcrypt($request_validated->password); 
-                   // if there will be DB error when create 
-                   //or DB down
-                    User::create($request_array); 
+                    $request_array= $request->validated(); 
+                    $request_array['password']= bcrypt($request->password);
+                    $user= User::create($request_array); 
+                   
+                    //create user shopcart
+                    Cart::create(['user_id'=> $user->id]);
                     return $this->responseSuccess(null,'User Created Succefully'); 
             }
             catch(\Exception $e){
                     return $this->responseError(null,'', Response::HTTP_INTERNAL_SERVER_ERROR);
-            }  
+            }         // if there will be DB error when create 
+                     //or DB down  ?? 
     }
 
     /**
@@ -60,24 +63,14 @@ class UserController extends Controller
      * Update User.
      *
      */
-    public function update(UpdateUserRequest $request_validated)
+    public function update(UpdateUserRequest $request)
     {
-            try{ 
-                   
+           
                     $user= auth()->user();
-                    $request_array= $request_validated->validated();
-                    DB::beginTransaction();
-                    // *1* check if there is the attribute *2* check if the value is not null *3* check if there is a changement in the value **
-                    if ($request_validated->has('name') && !empty($request_array['name']) && $user->name != $request_array['name']) $user->update(['name'=> $request_array['name']]);
-                    if ($request_validated->has('email') && $request_array['email'] && $user->email != $request_array['email']) $user->update(['email'=> $request_array['email']]);
-                    if ($request_validated->has('password') && $request_array['password'] && $user->password != bcrypt($request_array['password'])) $user->update(['password'=> bcrypt($request_array['password'])]);
-                    DB::commit();
+                    $request_array= $request->validated();
+                    $user->update($request_array);
                     return $this->responseSuccess(new UserResource($user),'User Updated Succefully');
-            }
-            catch(\Exception $e){
-                    DB::rollback();
-                    return $this->responseError(null, '', Response::HTTP_INTERNAL_SERVER_ERROR);
-            }
+      
     }
 
     /**
